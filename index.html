@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -59,12 +60,20 @@
             background: white;
             padding: 20px;
             border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
 
-        .column.todo { background: #f8f9fa; }
-        .column.in-progress { background: #e3f2fd; }
-        .column.done { background: #f1f8e9; }
+        .column.todo {
+            background: #f8f9fa;
+        }
+
+        .column.in-progress {
+            background: #e3f2fd;
+        }
+
+        .column.done {
+            background: #f1f8e9;
+        }
 
         .column h2 {
             margin-bottom: 15px;
@@ -76,7 +85,7 @@
             padding: 10px;
             margin-bottom: 10px;
             border-radius: 4px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -108,12 +117,13 @@
         }
     </style>
 </head>
+
 <body>
     <div class="container">
         <div class="header">
             <h1>Task Board</h1>
         </div>
-        
+
         <div class="add-task">
             <input type="text" id="taskInput" placeholder="Enter a new task">
             <button id="addButton">Add Task</button>
@@ -136,12 +146,12 @@
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             let tasks = [
-                { id: 1, title: 'Learn Git Basics', status: 'todo' },
-                { id: 2, title: 'Create First PR', status: 'in-progress' },
-                { id: 3, title: 'Review Code', status: 'done' },
-                { id: 4, title: 'Nathan Kaduru', status: 'done' }
+                { id: 1, title: 'Learn Git Basics', status: 'todo', dueDate: '2025-01-20' },
+                { id: 2, title: 'Create First PR', status: 'in-progress', dueDate: '2025-02-20' },
+                { id: 3, title: 'Review Code', status: 'done', dueDate: '2025-03-20' },
+                { id: 4, title: 'Nathan Kaduru', status: 'done', dueDate: '2025-04-20' }
             ];
 
             function createTaskElement(task) {
@@ -149,6 +159,7 @@
                 taskDiv.className = 'task';
                 taskDiv.innerHTML = `
                     <span>${task.title}</span>
+                    <span>Due: ${task.dueDate || 'No due date'}</span>
                     <div>
                         <select onchange="moveTask(${task.id}, this.value)">
                             <option value="todo" ${task.status === 'todo' ? 'selected' : ''}>To Do</option>
@@ -173,7 +184,7 @@
             }
 
             // Make functions globally available
-            window.moveTask = function(taskId, newStatus) {
+            window.moveTask = function (taskId, newStatus) {
                 const task = tasks.find(t => t.id === taskId);
                 if (task) {
                     task.status = newStatus;
@@ -181,21 +192,22 @@
                 }
             };
 
-            window.deleteTask = function(taskId) {
+            window.deleteTask = function (taskId) {
                 tasks = tasks.filter(task => task.id !== taskId);
                 renderTasks();
             };
 
             // Add task event listener
-            document.getElementById('addButton').addEventListener('click', function() {
+            document.getElementById('addButton').addEventListener('click', function () {
                 const input = document.getElementById('taskInput');
                 const title = input.value.trim();
-                
+
                 if (title) {
                     const newTask = {
                         id: tasks.length + 1,
                         title: title,
-                        status: 'todo'
+                        status: 'todo',
+                        dueDate: "2025-05-20"
                     };
                     tasks.push(newTask);
                     input.value = '';
@@ -204,7 +216,7 @@
             });
 
             // Add enter key support for new tasks
-            document.getElementById('taskInput').addEventListener('keypress', function(e) {
+            document.getElementById('taskInput').addEventListener('keypress', function (e) {
                 if (e.key === 'Enter') {
                     document.getElementById('addButton').click();
                 }
@@ -215,4 +227,5 @@
         });
     </script>
 </body>
+
 </html>
